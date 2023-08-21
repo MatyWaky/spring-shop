@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zarejestruj się</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+<header th:replace="~{fragments/header :: ShopHeader}"></header>
+
+<div class="registration-form">
+    <h2>Zarejestruj się</h2>
+    <form th:action="@{/order/saveorder}" method="post">
+        <label for="email">Adres email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Hasło:</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="repeat-password">Hasło:</label>
+        <input type="password" id="repeat-password" name="repeat-password" required>
+
+        <button type="submit">Zarejestruj</button>
+    </form>
+</div>
+
+<footer th:replace="~{fragments/footer :: ShopFooter}"></footer>
+</body>
+</html>
