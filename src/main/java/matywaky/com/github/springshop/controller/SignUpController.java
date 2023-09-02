@@ -40,6 +40,11 @@ public class SignUpController {
                     "There is already an account registered with the same email");
         }
 
+        /**
+         * Powtórzenie hasła można sprawdzić chociażby w js ;)
+         * Nie ma potrzeby przesyłania tego do backendu
+         */
+
         if (result.hasErrors()) {
             model.addAttribute("user", userDto);
             return "/sign-up";
