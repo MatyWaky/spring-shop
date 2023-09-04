@@ -8,6 +8,26 @@
 <body>
 <header th:replace="~{fragments/header :: ShopHeader}"></header>
 
+<div class="container">
+    <div class="product-list">
+        <div class="product" th:each="product : ${products}">
+            <h3 th:text="${product.name}"></h3>
+            <p th:text="${product.description}"></p>
+            <p>Cena: </p>
+            <p th:text="${product.price}"></p>
+            <p>Dostępne: </p>
+            <p th:text="${product.quantity}"></p>
+            <button>Dodaj do koszyka</button>
+        </div>
+        <!--<div class="product">
+            <h3>Produkt 1</h3>
+            <p>Opis produktu 1 lorem ipsum dolor sit amet.</p>
+            <p>Cena: 29.99 PLN</p>
+            <button>Dodaj do koszyka</button>
+        </div>-->
+    </div>
+</div>
+
 <footer th:replace="~{fragments/footer :: ShopFooter}"></footer>
 </body>
 </html>
