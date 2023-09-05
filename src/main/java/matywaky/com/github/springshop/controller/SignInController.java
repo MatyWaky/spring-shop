@@ -38,6 +38,6 @@ public class SignInController {
             /*result.rejectValue("all", "666",
                     "Wrong email and/or password or account does not exist");*/
         }
-        return "redirect:/sign-in?success";
+        return "redirect:/admin";
     }
 }

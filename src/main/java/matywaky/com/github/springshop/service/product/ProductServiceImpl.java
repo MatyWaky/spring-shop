@@ -25,6 +25,25 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Product findProductByName(String name) {
+        return productRepository.findProductByName(name);
+    }
+
+    @Override
+    public void saveProduct(ProductDto productDto) {
+        Product product = new Product();
+        product.setName(productDto.getName());
+        product.setDescription(productDto.getDescription());
+        product.setImage(productDto.getImage());
+        product.setPrice(productDto.getPrice());
+        product.setQuantity(productDto.getQuantity());
+        /*if (productDto.getQuantity() == '\0')
+            product.setQuantity(0);*/
+
+        productRepository.save(product);
+    }
+
     private ProductDto mapToProductDto(Product product) {
         ProductDto productDto = new ProductDto();
         productDto.setName(product.getName());

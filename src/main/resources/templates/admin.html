@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shpe - admin</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+<header th:replace="~{fragments/header :: ShopHeader}"></header>
+
+<div class="container">
+    <div class="admin-panel">
+        <h2>Dodaj nowy produkt</h2>
+        <form th:action="@{/admin/add}" method="post">
+            <label for="name">Nazwa produktu:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="image">Link do zdjęcia:</label>
+            <input type="text" id="image" name="image" required>
+
+            <label for="description">Opis produktu:</label>
+            <input type="text" id="description" name="description" required>
+
+            <label for="price">Cena produktu:</label>
+            <input type="text" id="price" name="price" required>
+
+            <label for="quantity">Dostępna ilość:</label>
+            <input type="number" id="quantity" name="quantity">
+
+            <button type="submit">Dodaj produkt</button>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: ShopFooter}"></footer>
+</body>
+</html>

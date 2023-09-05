@@ -24,8 +24,9 @@ public class ProductDto {
     @NotEmpty(message = "Product image should not be empty")
     private String image;
 
-    @NotEmpty(message = "Product price should not be empty")
+    //@NotEmpty(message = "Product price should not be empty")
     private float price;
 
+    @
     private int quantity;
 }
