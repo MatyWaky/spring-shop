@@ -27,6 +27,5 @@ public class ProductDto {
     //@NotEmpty(message = "Product price should not be empty")
     private float price;
 
-    @
-    private int quantity;
+    private Integer quantity;
 }

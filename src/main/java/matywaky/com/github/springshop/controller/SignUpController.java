@@ -2,7 +2,6 @@ package matywaky.com.github.springshop.controller;
 
 import jakarta.validation.Valid;
 import matywaky.com.github.springshop.dto.UserDto;
-import matywaky.com.github.springshop.model.User;
 import matywaky.com.github.springshop.service.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +15,7 @@ import java.util.List;
 @Controller
 public class SignUpController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public SignUpController(UserService userService) {
         this.userService = userService;
@@ -24,32 +23,24 @@ public class SignUpController {
 
     @GetMapping("/signup")
     public String signUpForm() {
-        // tu niby brakuje Model model itd.
         return "sign-up";
     }
 
-    @PostMapping("/signup/save")
+    @PostMapping("/signup")
     public String signUp(@Valid @ModelAttribute("user") UserDto userDto,
                          BindingResult result,
                          Model model) {
-        User existingUser = userService.findUserByEmail(userDto.getEmail());
-        if (existingUser != null &&
-        existingUser.getEmail() != null &&
-        !existingUser.getEmail().isEmpty()) {
-            result.rejectValue("email", null,
-                    "There is already an account registered with the same email");
+        String error = userService.checkSignUpData(userDto);
+        if (error != null) {
+            model.addAttribute("errorMessage", error);
+            return "sign-up";
         }
 
-        /**
-         * Powtórzenie hasła można sprawdzić chociażby w js ;)
-         * Nie ma potrzeby przesyłania tego do backendu
+        /*
+         * SPRAWDZIĆ POWTÓRZONE HASŁO W JS tzn.
+         * Czy pole jest wypełnione?
+         * Czy pole jest takie samo jak hasło?
          */
-
-        if (result.hasErrors()) {
-            model.addAttribute("user", userDto);
-            return "/sign-up";
-        }
-
         userService.saveUser(userDto);
         return "redirect:/signup?success";
     }

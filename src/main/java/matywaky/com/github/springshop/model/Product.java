@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @NoArgsConstructor
 @Getter
@@ -29,9 +30,10 @@ public class Product {
     private float price;
 
     @Column
-    private int quantity;
+    @ColumnDefault("0")
+    private Integer quantity;
 
-    public Product(String name, String description, String image, float price, int quantity) {
+    public Product(String name, String description, String image, float price, Integer quantity) {
         this.name = name;
         this.description = description;
         this.image = image;

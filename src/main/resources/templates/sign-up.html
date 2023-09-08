@@ -10,7 +10,7 @@
 
 <div class="registration-form">
     <h2>Sign up</h2>
-    <form th:action="@{/signup/save}" method="post">
+    <form th:action="@{/signup}" method="post">
         <label for="email">Email address:</label>
         <input type="email" id="email" name="email" required>
 
@@ -22,6 +22,7 @@
 
         <button type="submit">Sign up</button>
     </form>
+    <span th:if="${errorMessage}"  th:text="${errorMessage}" style="color: red"></span>
 </div>
 
 <footer th:replace="~{fragments/footer :: ShopFooter}"></footer>

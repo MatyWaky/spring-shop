@@ -9,4 +9,6 @@ public interface UserService {
     void saveUser(UserDto userDto);
     User findUserByEmail(String email);
     List<UserDto> findAllUsers();
+    String checkSignUpData(UserDto userDto);
+    String checkSignInData(UserDto userDto);
 }

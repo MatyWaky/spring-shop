@@ -38,8 +38,9 @@ public class ProductServiceImpl implements ProductService {
         product.setImage(productDto.getImage());
         product.setPrice(productDto.getPrice());
         product.setQuantity(productDto.getQuantity());
-        /*if (productDto.getQuantity() == '\0')
-            product.setQuantity(0);*/
+        if (productDto.getQuantity() == null
+                || productDto.getQuantity() < 0)
+            product.setQuantity(0);
 
         productRepository.save(product);
     }
