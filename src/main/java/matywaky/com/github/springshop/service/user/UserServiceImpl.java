@@ -3,6 +3,7 @@ package matywaky.com.github.springshop.service.user;
 import matywaky.com.github.springshop.dto.UserDto;
 import matywaky.com.github.springshop.model.User;
 import matywaky.com.github.springshop.repository.UserRepository;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,8 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setPassword(userDto.getPassword());
+        /*user.setPermission_id(3);
+        user.setStatus_id(2);*/
         userRepository.save(user);
     }
 
