@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Spring shop</title>
   <link rel="stylesheet" type="text/css" href="/css/styles.css">
-  <script>
+<!--  <script>
     function getCookie(name) {
       return document.cookie.split('; ').reduce((r, v) => {
         const parts = v.split('=')
@@ -18,10 +18,10 @@
         document.getElementById("welcometext").innerHTML = "Welcome " + username + "!";
       }
     }
-  </script>
+  </script>-->
 </head>
 <body>
-<header th:fragment="ShopHeader">
+<!--<header th:fragment="ShopHeader">
   <h1><a th:href="@{/}">Shpe</a></h1>
   <nav>
     <ul>
@@ -30,10 +30,12 @@
 
     </ul>
   </nav>
-</header>
+</header>-->
+<header th:replace="~{fragments/header :: ShopHeader}"></header>
+<h1 th:text="${user}"></h1>
+<p th:text="${password}"></p>
 
-
-<button onclick="display_username()">Click me</button>
+<!--<button onclick="display_username()">Click me</button>-->
 
 <footer th:replace="~{fragments/footer :: ShopFooter}"></footer>
 </body>

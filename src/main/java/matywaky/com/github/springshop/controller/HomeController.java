@@ -1,5 +1,6 @@
 package matywaky.com.github.springshop.controller;
 
+import jakarta.servlet.http.HttpSession;
 import matywaky.com.github.springshop.service.product.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,8 +16,11 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(Model model) {
+    public String home(Model model, HttpSession session) {
         model.addAttribute("products", productService.findAllProducts());
+        if (session.getAttribute("loginStatus") != null)
+            model.addAttribute("loginStatus", "logged");
+
         return "home";
     }
 }

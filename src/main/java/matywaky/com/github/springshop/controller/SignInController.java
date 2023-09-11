@@ -2,6 +2,7 @@ package matywaky.com.github.springshop.controller;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import matywaky.com.github.springshop.dto.UserDto;
 import matywaky.com.github.springshop.service.user.UserService;
@@ -31,17 +32,15 @@ public class SignInController {
     public String signIn(@Valid @ModelAttribute("user") UserDto userDto,
                          BindingResult result,
                          Model model,
-                         HttpServletResponse response) {
+                         final HttpSession session) {
         String error = userService.checkSignInData(userDto);
         if (error != null) {
             model.addAttribute("errorMessage", error);
             return "sign-in";
         }
 
-        model.addAttribute("loginStatus", "logged");
-        Cookie welcomeCookie = new Cookie("welcome", userDto.getEmail());
-        welcomeCookie.setMaxAge(60 * 60 * 24 * 30);
-        response.addCookie(welcomeCookie);
+        session.setAttribute("userEmail", userDto.getEmail());
+        session.setAttribute("loginStatus", "logged");
         return "redirect:/loggedUser";
     }
 }

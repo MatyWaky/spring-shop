@@ -6,7 +6,8 @@
   <nav>
     <ul>
       <li><a href="#koszyk">Koszyk</a></li>
-      <li><a th:href="@{/signin}">Zaloguj</a></li>
+      <li><a th:if="${loginStatus} == logged" th:href="@{/signin}">Wyloguj</a></li>
+      <li><a th:if="${loginStatus} != logged" th:href="@{/signin}">Zaloguj</a></li>
       <li><a th:href="@{/signup}">Zarejestruj</a></li>
     </ul>
   </nav>
