@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -14,6 +16,7 @@ public class Permission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "permission_id")
     private Integer id;
 
     @Column(nullable = false, unique = true)
@@ -21,6 +24,9 @@ public class Permission {
 
     @Column(nullable = false, unique = true)
     private String description;
+
+    @OneToMany(mappedBy="permission")
+    private Set<User> users;
 
     public Permission(String name, String description) {
         this.name = name;

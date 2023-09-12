@@ -1,6 +1,7 @@
 package matywaky.com.github.springshop.service.user;
 
 import matywaky.com.github.springshop.dto.UserDto;
+import matywaky.com.github.springshop.model.Permission;
 import matywaky.com.github.springshop.model.User;
 import matywaky.com.github.springshop.repository.UserRepository;
 import org.hibernate.annotations.DynamicInsert;
@@ -29,6 +30,8 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        //user.setPermission();
         userRepository.save(user);
     }
 
