@@ -2,7 +2,10 @@ package matywaky.com.github.springshop.service.user;
 
 import matywaky.com.github.springshop.dto.UserDto;
 import matywaky.com.github.springshop.model.Permission;
+import matywaky.com.github.springshop.model.Status;
 import matywaky.com.github.springshop.model.User;
+import matywaky.com.github.springshop.repository.PermissionRepository;
+import matywaky.com.github.springshop.repository.StatusRepository;
 import matywaky.com.github.springshop.repository.UserRepository;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,11 +21,17 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private PermissionRepository permissionRepository;
+    private StatusRepository statusRepository;
 
     public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder,
+                           PermissionRepository permissionRepository,
+                           StatusRepository statusRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.permissionRepository = permissionRepository;
+        this.statusRepository = statusRepository;
     }
 
     @Override
@@ -30,8 +39,8 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
-        //user.setPermission();
+        user.setPermission(checkPermission("NONE", "Default permissions"));
+        user.setStatus(checkStatus("NOT_VERIFIED", "The account has not been verified yet"));
         userRepository.save(user);
     }
 
@@ -85,5 +94,25 @@ public class UserServiceImpl implements UserService {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
+    }
+
+    private Permission checkPermission(String name, String description) {
+        Permission permission = permissionRepository.findByName(name);
+        if (permission == null) {
+            permission = new Permission(name, description);
+            permissionRepository.save(permission);
+        }
+
+        return permission;
+    }
+
+    private Status checkStatus(String name, String description) {
+        Status status = statusRepository.findByName(name);
+        if (status == null) {
+            status = new Status(name, description);
+            statusRepository.save(status);
+        }
+
+        return status;
     }
 }

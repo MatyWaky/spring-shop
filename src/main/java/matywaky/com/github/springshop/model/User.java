@@ -21,25 +21,18 @@ public class User {
     @Column(nullable = false, unique = true)
     private String password;
 
-    /*@Column
-    private Integer permission_id = 3;*/
-    /* 1 - administrator
-     * 2 - employee
-     * 3 - customer
-     */
     @ManyToOne
-    @JoinColumn(name="permission_id", nullable=false)
+    @JoinColumn(name = "permission_id", nullable = false)
     private Permission permission;
 
-    /*@Column
-    private Integer status_id = 2;*/
-    /* 1 - ok
-     * 2 - not_confirmed
-     * 3 - banned
-     */
+    @ManyToOne
+    @JoinColumn(name = "status_id", nullable = false)
+    private Status status;
 
-    public User(String email, String password) {
+    public User(String email, String password, Permission permission, Status status) {
         this.email = email;
         this.password = password;
+        this.permission = permission;
+        this.status = status;
     }
 }

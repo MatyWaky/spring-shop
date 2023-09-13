@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -14,6 +16,7 @@ public class Status {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "status_id")
     private Integer id;
 
     @Column(nullable = false, unique = true)
@@ -21,6 +24,9 @@ public class Status {
 
     @Column(nullable = false)
     private String description;
+
+    @OneToMany(mappedBy = "status")
+    private Set<User> users;
 
     public Status(String name, String description) {
         this.name = name;
