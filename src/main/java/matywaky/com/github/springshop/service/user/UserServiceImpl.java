@@ -7,7 +7,6 @@ import matywaky.com.github.springshop.model.User;
 import matywaky.com.github.springshop.repository.PermissionRepository;
 import matywaky.com.github.springshop.repository.StatusRepository;
 import matywaky.com.github.springshop.repository.UserRepository;
-import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +58,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String checkSignUpData(UserDto userDto) {
+        if (!userDto.getPassword().equals(userDto.getConfirmPassword()))
+            return "Password are not the same!";
         if (!checkPassword(userDto.getPassword()))
             return "Password doesn't meet requirements!";
 

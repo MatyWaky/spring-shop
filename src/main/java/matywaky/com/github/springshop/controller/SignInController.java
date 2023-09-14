@@ -23,12 +23,12 @@ public class SignInController {
         this.userService = userService;
     }
 
-    @GetMapping("/signin")
+    @GetMapping("/sign-in")
     public String signInForm() {
         return "sign-in";
     }
 
-    @PostMapping("/signin/save")
+    @PostMapping("/sign-in")
     public String signIn(@Valid @ModelAttribute("user") UserDto userDto,
                          BindingResult result,
                          Model model,
@@ -41,6 +41,6 @@ public class SignInController {
 
         session.setAttribute("userEmail", userDto.getEmail());
         session.setAttribute("loginStatus", "logged");
-        return "redirect:/loggedUser";
+        return "redirect:/";
     }
 }

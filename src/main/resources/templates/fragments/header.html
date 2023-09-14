@@ -6,9 +6,10 @@
   <nav>
     <ul>
       <li><a href="#koszyk">Koszyk</a></li>
-      <li><a th:if="${loginStatus} == logged" th:href="@{/signin}">Wyloguj</a></li>
-      <li><a th:if="${loginStatus} != logged" th:href="@{/signin}">Zaloguj</a></li>
-      <li><a th:href="@{/signup}">Zarejestruj</a></li>
+      <li><a th:if="${loginStatus} == logged" th:href="@{/account}">Account</a></li>
+      <li><a th:if="${loginStatus} == logged" th:href="@{/sign-out}">Sign out</a></li>
+      <li><a th:if="${loginStatus} != logged" th:href="@{/sign-in}">Sign in</a></li>
+      <li><a th:if="${loginStatus} != logged" th:href="@{/signup}">Sign up</a></li>
     </ul>
   </nav>
 </header>

@@ -19,4 +19,7 @@ public class UserDto {
     private String email;
     @NotEmpty(message = "Password should not be empty")
     private String password;
+    @NotEmpty(message = "Repeat password should not be empty")
+    // tutaj też powinno dać się sprawdzić czy hasła są takie same
+    private String confirmPassword;
 }

@@ -21,6 +21,10 @@ public class User {
     @Column(nullable = false, unique = true)
     private String password;
 
+    // Nie tworzy kolumny w db
+    /*@Transient
+    private String confirmPassword;*/
+
     @ManyToOne
     @JoinColumn(name = "permission_id", nullable = false)
     private Permission permission;

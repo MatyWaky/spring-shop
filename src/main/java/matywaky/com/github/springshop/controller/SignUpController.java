@@ -44,11 +44,4 @@ public class SignUpController {
         userService.saveUser(userDto);
         return "redirect:/signup?success";
     }
-
-    @GetMapping("/users")
-    public String users(Model model) {
-        List<UserDto> users = userService.findAllUsers();
-        model.addAttribute("users", users);
-        return "users";
-    }
 }
