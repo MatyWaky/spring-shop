@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+<header th:replace="~{fragments/header :: ShopHeader}"></header>
+
+<div class="registration-form">
+    <h2>Edit your presonal data:</h2>
+    <form th:action="@{/settings}" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" name="surname" required>
+
+        <button type="submit">Sign up</button>
+    </form>
+</div>
+
+<footer th:replace="~{fragments/footer :: ShopFooter}"></footer>
+</body>
+</html>

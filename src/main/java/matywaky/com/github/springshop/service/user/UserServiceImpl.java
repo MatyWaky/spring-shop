@@ -58,14 +58,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String checkSignUpData(UserDto userDto) {
-        if (!userDto.getPassword().equals(userDto.getConfirmPassword()))
-            return "Password are not the same!";
-        if (!checkPassword(userDto.getPassword()))
-            return "Password doesn't meet requirements!";
-
         User existingUser = userRepository.findByEmail(userDto.getEmail());
         if (existingUser != null)
             return "There is already an account registered with this email";
+        /*else if (!userDto.getPassword().equals(userDto.getConfirmPassword()))
+            return "Password are not the same!";*/
+        else if (!checkPassword(userDto.getPassword()))
+            return "Password doesn't meet requirements!";
 
         return null;
     }

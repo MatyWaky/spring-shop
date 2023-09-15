@@ -33,6 +33,10 @@ public class User {
     @JoinColumn(name = "status_id", nullable = false)
     private Status status;
 
+    @OneToOne
+    @JoinColumn(name = "user_details_id", referencedColumnName = "id")
+    private UserDetails userDetails;
+
     public User(String email, String password, Permission permission, Status status) {
         this.email = email;
         this.password = password;

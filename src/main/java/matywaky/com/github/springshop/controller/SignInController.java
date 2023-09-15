@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import matywaky.com.github.springshop.dto.UserDto;
+import matywaky.com.github.springshop.model.User;
 import matywaky.com.github.springshop.service.user.UserService;
 import org.apache.coyote.Response;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,8 @@ public class SignInController {
             return "sign-in";
         }
 
+        User user = userService.findUserByEmail(userDto.getEmail());
+        session.setAttribute("userId", user.getId());
         session.setAttribute("userEmail", userDto.getEmail());
         session.setAttribute("loginStatus", "logged");
         return "redirect:/";
