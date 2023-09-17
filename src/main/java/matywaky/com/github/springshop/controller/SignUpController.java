@@ -28,7 +28,6 @@ public class SignUpController {
 
     @PostMapping("/signup")
     public String signUp(@Valid @ModelAttribute("user") UserDto userDto,
-                         BindingResult result,
                          Model model) {
         String error = userService.checkSignUpData(userDto);
         if (error != null) {
@@ -36,11 +35,6 @@ public class SignUpController {
             return "sign-up";
         }
 
-        /*
-         * SPRAWDZIĆ POWTÓRZONE HASŁO W JS tzn.
-         * Czy pole jest wypełnione?
-         * Czy pole jest takie samo jak hasło?
-         */
         userService.saveUser(userDto);
         return "redirect:/signup?success";
     }

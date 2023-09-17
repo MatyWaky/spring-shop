@@ -4,8 +4,10 @@ import matywaky.com.github.springshop.dto.UserDto;
 import matywaky.com.github.springshop.model.Permission;
 import matywaky.com.github.springshop.model.Status;
 import matywaky.com.github.springshop.model.User;
+import matywaky.com.github.springshop.model.UserDetails;
 import matywaky.com.github.springshop.repository.PermissionRepository;
 import matywaky.com.github.springshop.repository.StatusRepository;
+import matywaky.com.github.springshop.repository.UserDetailsRepository;
 import matywaky.com.github.springshop.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,15 +24,18 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     private PermissionRepository permissionRepository;
     private StatusRepository statusRepository;
+    private UserDetailsRepository userDetailsRepository;
 
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder,
                            PermissionRepository permissionRepository,
-                           StatusRepository statusRepository) {
+                           StatusRepository statusRepository,
+                           UserDetailsRepository userDetailsRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.permissionRepository = permissionRepository;
         this.statusRepository = statusRepository;
+        this.userDetailsRepository = userDetailsRepository;
     }
 
     @Override
@@ -40,6 +45,13 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setPermission(checkPermission("NONE", "Default permissions"));
         user.setStatus(checkStatus("NOT_VERIFIED", "The account has not been verified yet"));
+        userRepository.save(user);
+
+        UserDetails userDetails = new UserDetails();
+        userDetails.setUser(user);
+        userDetailsRepository.save(userDetails);
+
+        user.setUserDetails(userDetails);
         userRepository.save(user);
     }
 
@@ -61,8 +73,8 @@ public class UserServiceImpl implements UserService {
         User existingUser = userRepository.findByEmail(userDto.getEmail());
         if (existingUser != null)
             return "There is already an account registered with this email";
-        /*else if (!userDto.getPassword().equals(userDto.getConfirmPassword()))
-            return "Password are not the same!";*/
+        else if (!userDto.getPassword().equals(userDto.getConfirmPassword()))
+            return "Password are not the same!";
         else if (!checkPassword(userDto.getPassword()))
             return "Password doesn't meet requirements!";
 

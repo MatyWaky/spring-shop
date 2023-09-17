@@ -5,6 +5,5 @@ import matywaky.com.github.springshop.model.UserDetails;
 
 public interface UserDetailsService {
 
-    public void editData(Long id, UserDetailsDto userDetailsDto);
-    public void createEmptyDetails();
+    void editData(Long id, UserDetailsDto userDetailsDto);
 }
