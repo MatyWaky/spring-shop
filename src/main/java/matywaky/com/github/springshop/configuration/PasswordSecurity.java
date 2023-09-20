@@ -1,4 +1,4 @@
-package matywaky.com.github.springshop.security;
+package matywaky.com.github.springshop.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
