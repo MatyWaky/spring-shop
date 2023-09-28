@@ -9,6 +9,7 @@ import matywaky.com.github.springshop.repository.PermissionRepository;
 import matywaky.com.github.springshop.repository.StatusRepository;
 import matywaky.com.github.springshop.repository.UserDetailsRepository;
 import matywaky.com.github.springshop.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
     private PermissionRepository permissionRepository;
     private StatusRepository statusRepository;
@@ -43,7 +47,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setPermission(checkPermission("NONE", "Default permissions"));
+        user.setPermission(checkPermission("USER", "Default permissions"));
         user.setStatus(checkStatus("NOT_VERIFIED", "The account has not been verified yet"));
         userRepository.save(user);
 
@@ -60,13 +64,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
-    @Override
+    /*@Override
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
                 .map(this::mapToUserDto)
                 .collect(Collectors.toList());
-    }
+    }*/
 
     @Override
     public String checkSignUpData(UserDto userDto) {
@@ -91,11 +95,11 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    private UserDto mapToUserDto(User user) {
+    /*private UserDto mapToUserDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setEmail(user.getEmail());
         return userDto;
-    }
+    }*/
 
     private boolean checkPassword(String password) {
         String regex = "^(?=.*[0-9])"

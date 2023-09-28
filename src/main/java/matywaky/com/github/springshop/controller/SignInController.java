@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class SignInController {
 
-    private final UserService userService;
+    /*private final UserService userService;
 
     public SignInController(UserService userService) {
         this.userService = userService;
-    }
+    }*/
 
     @GetMapping("/sign-in")
     public String signInForm() {
         return "sign-in";
     }
 
-    @PostMapping("/sign-in")
+    /*@PostMapping("/sign-in")
     public String signIn(@Valid @ModelAttribute("user") UserDto userDto,
                          BindingResult result,
                          Model model,
@@ -45,5 +45,5 @@ public class SignInController {
         session.setAttribute("userEmail", userDto.getEmail());
         session.setAttribute("loginStatus", "logged");
         return "redirect:/";
-    }
+    }*/
 }

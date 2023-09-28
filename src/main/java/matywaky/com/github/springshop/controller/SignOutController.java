@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class SignOutController {
 
-    @GetMapping("/sign-out")
+    /*@GetMapping("/sign-out")
     public String signOut(HttpSession session) {
         session.invalidate();
         return "redirect:/";
-    }
+    }*/
 }
