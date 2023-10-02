@@ -1,5 +1,6 @@
 package matywaky.com.github.springshop.configuration;
 
+import matywaky.com.github.springshop.service.custom.CustomFailureHandler;
 import matywaky.com.github.springshop.service.custom.CustomSuccessHandler;
 import matywaky.com.github.springshop.service.custom.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class WebSecurityConfiguration {
     @Autowired
     CustomSuccessHandler customSuccessHandler;
 
+    @Autowired
+    CustomFailureHandler customFailureHandler;
+
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -37,7 +41,7 @@ public class WebSecurityConfiguration {
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form.loginPage("/sign-in").loginProcessingUrl("/sign-in")
-                        .successHandler(customSuccessHandler).permitAll())
+                        .successHandler(customSuccessHandler).failureHandler(customFailureHandler).permitAll())
 
                 .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/sign-out"))

@@ -7,7 +7,8 @@
     <ul>
       <li><a href="#koszyk">Koszyk</a></li>
       <li><a th:if="${loginStatus} == logged" th:href="@{/settings}">Account</a></li>
-      <li><a th:if="${loginStatus} == logged" th:href="@{/sign-out}">Sign out</a></li>
+      <!--<li><a th:if="${loginStatus} == logged" th:href="@{/sign-out}">Sign out</a></li>-->
+      <li><a th:href="@{/sign-out}">Sign out</a></li>
       <li><a th:if="${loginStatus} != logged" th:href="@{/sign-in}">Sign in</a></li>
       <li><a th:if="${loginStatus} != logged" th:href="@{/signup}">Sign up</a></li>
     </ul>
