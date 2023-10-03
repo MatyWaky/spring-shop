@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,14 +19,19 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class WebSecurityConfiguration {
 
-    @Autowired
-    CustomUserDetailsService customUserDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    @Autowired
-    CustomSuccessHandler customSuccessHandler;
+    private final CustomSuccessHandler customSuccessHandler;
 
-    @Autowired
-    CustomFailureHandler customFailureHandler;
+    private final CustomFailureHandler customFailureHandler;
+
+    public WebSecurityConfiguration(CustomUserDetailsService customUserDetailsService,
+                                    CustomSuccessHandler customSuccessHandler,
+                                    CustomFailureHandler customFailureHandler) {
+        this.customUserDetailsService = customUserDetailsService;
+        this.customSuccessHandler = customSuccessHandler;
+        this.customFailureHandler = customFailureHandler;
+    }
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -34,9 +40,9 @@ public class WebSecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(c -> c.disable())
+        http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers("/admin")
-                        .hasAuthority("ADMIN").requestMatchers("/loggedUser", "/settings").hasAuthority("USER")
+                        .hasAuthority("ADMIN").requestMatchers("/loggedUser", "/settings").hasAnyAuthority("ADMIN", "USER")
                         .requestMatchers("/", "/home", "/css/**", "/signup", "/sign-in").permitAll()
                         .anyRequest().authenticated())
 

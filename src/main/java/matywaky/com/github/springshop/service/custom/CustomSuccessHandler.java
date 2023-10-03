@@ -1,9 +1,11 @@
 package matywaky.com.github.springshop.service.custom;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +19,20 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication)
             throws IOException, ServletException {
         var authorities = authentication.getAuthorities();
-        var roles = authorities.stream().map(r -> r.getAuthority()).findFirst();
+        var roles = authorities.stream().map(GrantedAuthority::getAuthority).findFirst();
 
-        if (roles.orElse("").equals("ADMIN"))
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+
+        if (roles.orElse("").equals("ADMIN")) {
+            response.addCookie(
+                    new Cookie("user", customUserDetails.getUsername()));
             response.sendRedirect("/admin");
-        else if (roles.orElse("").equals("USER"))
+        } else if (roles.orElse("").equals("USER")) {
+            response.addCookie(
+                    new Cookie("user", customUserDetails.getUsername()));
             response.sendRedirect("/settings");
-        else
-            response.sendRedirect("/error?unknownRole");
+        } else
+            response.sendRedirect("/sign-in?error=unknownRole");
     }
-
 
 }

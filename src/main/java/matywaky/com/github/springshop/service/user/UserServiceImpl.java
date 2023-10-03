@@ -21,14 +21,12 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    private PermissionRepository permissionRepository;
-    private StatusRepository statusRepository;
-    private UserDetailsRepository userDetailsRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final PermissionRepository permissionRepository;
+    private final StatusRepository statusRepository;
+    private final UserDetailsRepository userDetailsRepository;
 
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder,
@@ -64,13 +62,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
-    /*@Override
+    @Override
     public List<UserDto> findAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
                 .map(this::mapToUserDto)
                 .collect(Collectors.toList());
-    }*/
+    }
 
     @Override
     public String checkSignUpData(UserDto userDto) {
@@ -95,11 +93,11 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    /*private UserDto mapToUserDto(User user) {
+    private UserDto mapToUserDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setEmail(user.getEmail());
         return userDto;
-    }*/
+    }
 
     private boolean checkPassword(String password) {
         String regex = "^(?=.*[0-9])"
