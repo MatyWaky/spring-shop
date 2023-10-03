@@ -23,16 +23,16 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        if (roles.orElse("").equals("ADMIN")) {
+        if (roles.orElse("").equals("ADMIN") ||
+                roles.orElse("").equals("USER")) {
             response.addCookie(
                     new Cookie("user", customUserDetails.getUsername()));
-            response.sendRedirect("/admin");
-        } else if (roles.orElse("").equals("USER")) {
             response.addCookie(
-                    new Cookie("user", customUserDetails.getUsername()));
-            response.sendRedirect("/settings");
-        } else
+                    new Cookie("status", "logged"));
+            response.sendRedirect("/loggedUser");
+        } else {
             response.sendRedirect("/sign-in?error=unknownRole");
+        }
     }
 
 }

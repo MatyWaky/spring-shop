@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 @Controller
 public class LoggedUserController {
     private final UserService userService;
@@ -25,13 +28,16 @@ public class LoggedUserController {
     }
 
     @GetMapping("/loggedUser")
-    public String home(@CookieValue(value = "user"/*, defaultValue = "Atta"*/) String email,
-                       final Model model,
+    public String home(@CookieValue(value = "user") String email,
+                       @CookieValue(value = "status") String status,
                        final HttpSession session) {
         User user = userService.findUserByEmail(email);
-        model.addAttribute("user", email);
-        model.addAttribute("password", user.getPassword());
-        //model.addAttribute("loginStatus", session.getAttribute("loginStatus").toString());
+        if (user != null && !user.getEmail().isEmpty())
+            session.setAttribute("user", email);
+
+        if (status != null && !status.isEmpty())
+            session.setAttribute("status", status);
+
         return "loggedUserHome";
     }
 
@@ -42,7 +48,6 @@ public class LoggedUserController {
 
     @PostMapping("/settings")
     public String editData(@Valid @ModelAttribute("userDetails") UserDetailsDto userDetailsDto,
-                           Model model,
                            final HttpSession session) {
         Long id = Long.parseLong(session.getAttribute("userId").toString());
         userDetailsService.editData(id, userDetailsDto);
