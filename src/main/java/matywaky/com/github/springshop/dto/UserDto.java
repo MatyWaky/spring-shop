@@ -14,11 +14,14 @@ import lombok.Setter;
 public class UserDto {
 
     private Long id;
-    //@NotEmpty(message = "Email should not be empty")
-    //@Email
+
+    @NotEmpty(message = "Email should not be empty")
+    @Email
     private String email;
-    //@NotEmpty(message = "Password should not be empty")
+
+    @NotEmpty(message = "Password should not be empty")
     private String password;
+
     //@NotEmpty(message = "Repeat password should not be empty")
     // tutaj też powinno dać się sprawdzić czy hasła są takie same
     private String confirmPassword;

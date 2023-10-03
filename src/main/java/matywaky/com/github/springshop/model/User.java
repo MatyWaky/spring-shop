@@ -28,8 +28,8 @@ public class User implements Serializable {
     private String confirmPassword;*/
 
     @ManyToOne
-    @JoinColumn(name = "permission_id", nullable = false)
-    private Permission permission;
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
@@ -39,10 +39,10 @@ public class User implements Serializable {
     @JoinColumn(name = "user_details_id", referencedColumnName = "id")
     private UserDetails userDetails;
 
-    public User(String email, String password, Permission permission, Status status) {
+    public User(String email, String password, Role role, Status status) {
         this.email = email;
         this.password = password;
-        this.permission = permission;
+        this.role = role;
         this.status = status;
     }
 }

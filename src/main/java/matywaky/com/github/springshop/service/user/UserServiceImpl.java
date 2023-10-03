@@ -1,15 +1,14 @@
 package matywaky.com.github.springshop.service.user;
 
 import matywaky.com.github.springshop.dto.UserDto;
-import matywaky.com.github.springshop.model.Permission;
+import matywaky.com.github.springshop.model.Role;
 import matywaky.com.github.springshop.model.Status;
 import matywaky.com.github.springshop.model.User;
 import matywaky.com.github.springshop.model.UserDetails;
-import matywaky.com.github.springshop.repository.PermissionRepository;
+import matywaky.com.github.springshop.repository.RoleRepository;
 import matywaky.com.github.springshop.repository.StatusRepository;
 import matywaky.com.github.springshop.repository.UserDetailsRepository;
 import matywaky.com.github.springshop.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,18 +23,18 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
-    private final PermissionRepository permissionRepository;
+    private final RoleRepository roleRepository;
     private final StatusRepository statusRepository;
     private final UserDetailsRepository userDetailsRepository;
 
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder,
-                           PermissionRepository permissionRepository,
+                           RoleRepository roleRepository,
                            StatusRepository statusRepository,
                            UserDetailsRepository userDetailsRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.permissionRepository = permissionRepository;
+        this.roleRepository = roleRepository;
         this.statusRepository = statusRepository;
         this.userDetailsRepository = userDetailsRepository;
     }
@@ -45,7 +44,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setPermission(checkPermission("USER", "Default permissions"));
+        user.setRole(checkRole("USER", "Default permissions"));
         user.setStatus(checkStatus("NOT_VERIFIED", "The account has not been verified yet"));
         userRepository.save(user);
 
@@ -110,14 +109,14 @@ public class UserServiceImpl implements UserService {
         return matcher.matches();
     }
 
-    private Permission checkPermission(String name, String description) {
-        Permission permission = permissionRepository.findByName(name);
-        if (permission == null) {
-            permission = new Permission(name, description);
-            permissionRepository.save(permission);
+    private Role checkRole(String name, String description) {
+        Role role = roleRepository.findByName(name);
+        if (role == null) {
+            role = new Role(name, description);
+            roleRepository.save(role);
         }
 
-        return permission;
+        return role;
     }
 
     private Status checkStatus(String name, String description) {

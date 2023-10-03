@@ -1,11 +1,11 @@
 package matywaky.com.github.springshop.repository;
 
-import matywaky.com.github.springshop.model.Permission;
+import matywaky.com.github.springshop.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PermissionRepository extends JpaRepository<Permission, Integer> {
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-    Permission findByName(String name);
+    Role findByName(String name);
 }
