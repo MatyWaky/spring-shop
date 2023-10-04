@@ -29,7 +29,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
                     new Cookie("user", customUserDetails.getUsername()));
             response.addCookie(
                     new Cookie("status", "logged"));
-            response.sendRedirect("/loggedUser");
+            response.sendRedirect("/");
         } else {
             response.sendRedirect("/sign-in?error=unknownRole");
         }

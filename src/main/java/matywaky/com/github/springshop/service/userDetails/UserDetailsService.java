@@ -6,6 +6,6 @@ import org.springframework.context.annotation.Bean;
 
 public interface UserDetailsService {
 
-    void editData(Long id, UserDetailsDto userDetailsDto);
+    void editData(UserDetailsDto userDetailsDto, String email);
 
 }

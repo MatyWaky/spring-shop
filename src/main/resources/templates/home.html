@@ -17,7 +17,8 @@
             <p th:text="${product.price}"></p>
             <span>Dostępne: </span>
             <p th:text="${product.quantity}"></p>
-            <button>Dodaj do koszyka</button>
+            <a th:if="${session.status} == logged">Dodaj do koszyka</a>
+            <a th:if="${session.status} != logged" th:href="@{/sign-in}">Zaloguj się, aby dodać do koszyka</a>
         </div>
     </div>
 </div>
