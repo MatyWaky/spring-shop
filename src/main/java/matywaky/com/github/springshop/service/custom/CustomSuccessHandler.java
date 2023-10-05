@@ -23,8 +23,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
 
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        if (roles.orElse("").equals("ADMIN") ||
-                roles.orElse("").equals("USER")) {
+        if (roles.isPresent()) {
             response.addCookie(
                     new Cookie("user", customUserDetails.getUsername()));
             response.addCookie(

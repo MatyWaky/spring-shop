@@ -42,14 +42,14 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers("/admin")
-                        .hasAuthority("ADMIN").requestMatchers("/loggedUser", "/settings").hasAnyAuthority("ADMIN", "USER")
-                        .requestMatchers("/", "/css/**", "/signup", "/sign-in").permitAll()
+                        .hasAuthority("ADMIN").requestMatchers("/settings").hasAnyAuthority("ADMIN", "USER")
+                        .requestMatchers("", "/", "/css/**", "/signup", "/sign-in").permitAll()
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form.loginPage("/sign-in").loginProcessingUrl("/sign-in")
                         .successHandler(customSuccessHandler).failureHandler(customFailureHandler).permitAll())
 
-                .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
+                .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true).deleteCookies()
                         .logoutRequestMatcher(new AntPathRequestMatcher("/sign-out"))
                         .logoutSuccessUrl("/sign-in?logout").permitAll());
 
