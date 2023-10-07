@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import matywaky.com.github.springshop.model.Role;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,4 +26,6 @@ public class UserDto {
     //@NotEmpty(message = "Repeat password should not be empty")
     // tutaj też powinno dać się sprawdzić czy hasła są takie same
     private String confirmPassword;
+
+    private String role;
 }

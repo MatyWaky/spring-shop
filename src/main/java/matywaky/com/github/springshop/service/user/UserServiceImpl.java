@@ -44,7 +44,13 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRole(checkRole("USER", "Default permissions"));
+        if (userDto.getRole() == null || userDto.getRole()/*.getName()*/.isEmpty()) {
+            user.setRole(checkRole("USER", "Default permissions"));
+        } else {
+            user.setRole(checkRole(
+                            userDto.getRole()/*.getName()*/,
+                            userDto.getRole()/*.getDescription()*/));
+        }
         user.setStatus(checkStatus("NOT_VERIFIED", "The account has not been verified yet"));
         userRepository.save(user);
 
