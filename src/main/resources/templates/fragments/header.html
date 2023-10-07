@@ -5,7 +5,8 @@
   <h1><a th:href="@{/}">Shpe</a></h1>
   <nav>
     <ul>
-      <li><a href="#koszyk">Koszyk</a></li>
+      <li><a th:if="${session.role} != ADMIN and ${session.role != null}" href="#koszyk">Koszyk</a></li>
+      <li><a th:if="${session.role} == ADMIN" th:href="@{/admin}">Admin</a></li>
       <li><a th:if="${session.status} == logged" th:href="@{/account}">Account</a></li>
       <li><a th:if="${session.status} == logged" th:href="@{/}">Home</a></li>
       <li><a th:if="${session.status} == logged" th:href="@{/sign-out}">Sign out</a></li>

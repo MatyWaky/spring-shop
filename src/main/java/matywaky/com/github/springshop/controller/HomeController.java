@@ -25,12 +25,15 @@ public class HomeController {
     @GetMapping("/")
     public String home(@CookieValue(value = "user", defaultValue = "") String email,
                        @CookieValue(value = "status", defaultValue = "") String status,
+                       @CookieValue(value = "role", defaultValue = "") String role,
                        Model model,
                        HttpSession session) {
         if (!email.isEmpty()) {
             User user = userService.findUserByEmail(email);
-            if (user != null)
+            if (user != null) {
                 session.setAttribute("user", email);
+                session.setAttribute("role", role);
+            }
         }
 
         if (status != null && !status.isEmpty())

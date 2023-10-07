@@ -49,7 +49,8 @@ public class WebSecurityConfiguration {
                 .formLogin(form -> form.loginPage("/sign-in").loginProcessingUrl("/sign-in")
                         .successHandler(customSuccessHandler).failureHandler(customFailureHandler).permitAll())
 
-                .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true).deleteCookies()
+                .logout(form -> form.invalidateHttpSession(true).clearAuthentication(true)
+                        .deleteCookies("user", "status")/*.invalidateHttpSession(true)*/
                         .logoutRequestMatcher(new AntPathRequestMatcher("/sign-out"))
                         .logoutSuccessUrl("/sign-in?logout").permitAll());
 
