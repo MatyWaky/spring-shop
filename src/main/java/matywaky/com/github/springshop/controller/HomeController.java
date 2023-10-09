@@ -1,25 +1,30 @@
 package matywaky.com.github.springshop.controller;
 
 import jakarta.servlet.http.HttpSession;
+import matywaky.com.github.springshop.ProductOperation;
 import matywaky.com.github.springshop.model.User;
+import matywaky.com.github.springshop.service.cart.CartService;
 import matywaky.com.github.springshop.service.product.ProductService;
 import matywaky.com.github.springshop.service.user.UserService;
-import matywaky.com.github.springshop.service.userDetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class HomeController {
 
     private final ProductService productService;
     private final UserService userService;
+    private final CartService cartService;
 
     public HomeController(ProductService productService,
-                          UserService userService) {
+                          UserService userService,
+                          CartService cartService) {
         this.productService = productService;
         this.userService = userService;
+        this.cartService = cartService;
     }
 
     @GetMapping("/")
@@ -43,6 +48,12 @@ public class HomeController {
         if (session.getAttribute("loginStatus") != null)
             model.addAttribute("loginStatus", "logged");
 
+        return "home";
+    }
+
+    @GetMapping("/add/{productId}")
+    public String addProductToCart(@PathVariable("productId") Long productId, final Model model) {
+        cartService.productOperation(productId, ProductOperation.INCREASE);
         return "home";
     }
 }
