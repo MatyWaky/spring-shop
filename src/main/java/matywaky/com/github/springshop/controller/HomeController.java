@@ -54,6 +54,6 @@ public class HomeController {
     @GetMapping("/add/{productId}")
     public String addProductToCart(@PathVariable("productId") Long productId, final Model model) {
         cartService.productOperation(productId, ProductOperation.INCREASE);
-        return "home";
+        return "redirect:/";
     }
 }

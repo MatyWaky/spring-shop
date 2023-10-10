@@ -23,7 +23,9 @@ public class Role implements Serializable {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    //length powinno być,
+    // żeby później u klienta nie było niespodzianek, bo default tworzy varchar 255
+    @Column(nullable = false, unique = true, length = 250)
     private String description;
 
     @OneToMany(mappedBy="role")

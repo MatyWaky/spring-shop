@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ import java.util.Optional;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Getter
-public class Cart {
+public class Cart implements Serializable {
 
     private List<CartProduct> cartProducts = new ArrayList<>();
     private int counter = 0;
@@ -38,5 +39,11 @@ public class Cart {
         return cartProducts.stream()
                 .filter(i -> i.idEquals(product))
                 .findFirst();
+    }
+
+    public void clearCart() {
+        cartProducts.clear();
+        counter = 0;
+        sum = 0f;
     }
 }

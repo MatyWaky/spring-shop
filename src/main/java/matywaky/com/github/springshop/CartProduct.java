@@ -3,8 +3,10 @@ package matywaky.com.github.springshop;
 import lombok.Getter;
 import matywaky.com.github.springshop.model.Product;
 
+import java.io.Serializable;
+
 @Getter
-public class CartProduct {
+public class CartProduct implements Serializable {
 
     private Product product;
     private int counter;

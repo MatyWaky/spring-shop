@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>MyShop</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/order.css">
 </head>
-<body>
 
+<body>
+<header th:replace="~{fragments/header :: ShopHeader}"></header>
+
+<div class="main-content">
+
+    <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+
+        <table cellspacing="0">
+            <tr>
+                <th style="width: 30px;">No.</th>
+                <th style="width: 50px;"></th>
+                <th>Nazwa</th>
+                <th>Ilość</th>
+                <th>Suma</th>
+                <th style="width: 30px;"></th>
+            </tr>
+            <tr th:each="cartProduct : ${@cart.cartProducts}">
+                <td>1</td>
+                <td>
+                    <img th:src="@{${cartProduct.product.image}}">
+                </td>
+                <td th:text="${cartProduct.product.name}"></td>
+                <td style="display: flex; padding-top: 10px">
+                    <a class="mbtn" th:href="@{'/order/decrease/' + ${cartProduct.product.id}}">-</a>
+                    <p th:text="${cartProduct.counter}"></p>
+                    <a class="mbtn" th:href="@{'/order/increase/' + ${cartProduct.product.id}}">+</a>
+                </td>
+                <td th:text="${cartProduct.price}"></td>
+                <td>
+                    <a class="mbtn" th:href="@{'/order/remove/' + ${cartProduct.product.id}}">X</a>
+                </td>
+            </tr>
+        </table>
+
+        <div class="summary">
+            <p><span>Do zapłaty</span><span th:text="${@cart.sum}"></span>zł</p>
+        </div>
+        <a th:href="@{/order/summary}" class="add-btn">Dalej</a>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: ShopFooter}"></footer>
 </body>
+
 </html>
