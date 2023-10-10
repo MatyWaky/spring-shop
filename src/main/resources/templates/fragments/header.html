@@ -5,7 +5,10 @@
   <h1><a th:href="@{/}">Shpe</a></h1>
   <nav>
     <ul>
-      <li><a th:if="${session.role} != ADMIN and ${session.role != null}" th:href="@{/order/cart}">Koszyk</a></li>
+      <li th:if="${session.role} != ADMIN and ${session.role != null}">
+        <a th:href="@{/order/cart}">Koszyk</a>
+        (<a th:text="${@cart.counter}"/>)
+      </li>
       <li><a th:if="${session.role} == ADMIN" th:href="@{/admin}">Admin</a></li>
       <li><a th:if="${session.status} == logged" th:href="@{/account}">Account</a></li>
       <li><a th:if="${session.status} == logged" th:href="@{/}">Home</a></li>

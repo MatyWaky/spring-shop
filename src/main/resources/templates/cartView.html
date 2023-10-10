@@ -26,7 +26,7 @@
             <tr th:each="cartProduct : ${@cart.cartProducts}">
                 <td>1</td>
                 <td>
-                    <img th:src="@{${cartProduct.product.image}}">
+                    <img th:src="@{${cartProduct.product.image}}" alt="img">
                 </td>
                 <td th:text="${cartProduct.product.name}"></td>
                 <td style="display: flex; padding-top: 10px">

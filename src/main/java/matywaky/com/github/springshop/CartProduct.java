@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Getter
 public class CartProduct implements Serializable {
 
-    private Product product;
+    private final Product product;
     private int counter;
     private float price;
 
