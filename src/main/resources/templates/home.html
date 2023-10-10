@@ -11,14 +11,17 @@
 <div class="container">
     <div class="product-list">
         <div class="product" th:each="product : ${products}">
-            <h3 th:text="${product.name}"></h3>
+            <a th:href="@{'/product/' + ${product.name}}"><h3 th:text="${product.name}"/></a>
+            <a th:href="@{'/product/' + ${product.name}}">
+                <img th:src="${product.image}" th:alt="${product.name} + '-image'">
+            </a>
             <p th:text="${product.description}"></p>
-            <span>Cena: </span>
+            <span>Price: </span>
             <p th:text="${product.price}"></p>
-            <span>Dostępne: </span>
+            <span>Available: </span>
             <p th:text="${product.quantity}"></p>
-            <a th:if="${session.status} == logged" th:href="@{'/add/' + ${product.id}}">Dodaj do koszyka</a>
-            <a th:if="${session.status} != logged" th:href="@{/sign-in}">Zaloguj się, aby dodać do koszyka</a>
+            <a th:if="${session.status} == logged" th:href="@{'/add/' + ${product.id}}">Add to cart</a>
+            <a th:if="${session.status} != logged" th:href="@{/sign-in}">Sign in, to add to cart</a>
         </div>
     </div>
 </div>

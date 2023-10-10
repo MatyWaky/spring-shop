@@ -14,9 +14,8 @@
 
     <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
 
-        <table cellspacing="0">
+        <table>
             <tr>
-                <th style="width: 30px;">No.</th>
                 <th style="width: 50px;"></th>
                 <th>Nazwa</th>
                 <th>Ilość</th>
@@ -24,9 +23,8 @@
                 <th style="width: 30px;"></th>
             </tr>
             <tr th:each="cartProduct : ${@cart.cartProducts}">
-                <td>1</td>
                 <td>
-                    <img th:src="@{${cartProduct.product.image}}" alt="img">
+                    <img th:src="${cartProduct.product.image}" alt="img">
                 </td>
                 <td th:text="${cartProduct.product.name}"></td>
                 <td style="display: flex; padding-top: 10px">
