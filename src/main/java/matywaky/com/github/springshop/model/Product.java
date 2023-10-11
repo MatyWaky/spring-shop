@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @NoArgsConstructor
 @Getter
@@ -29,13 +30,13 @@ public class Product implements Serializable {
     private String image;
 
     @Column(nullable = false)
-    private float price;
+    private BigDecimal price;
 
     @Column
     @ColumnDefault("0")
     private Integer quantity;
 
-    public Product(String name, String description, String image, float price, Integer quantity) {
+    public Product(String name, String description, String image, BigDecimal price, Integer quantity) {
         this.name = name;
         this.description = description;
         this.image = image;

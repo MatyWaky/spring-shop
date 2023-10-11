@@ -4,13 +4,14 @@ import lombok.Getter;
 import matywaky.com.github.springshop.model.Product;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Getter
 public class CartProduct implements Serializable {
 
     private final Product product;
     private int counter;
-    private float price;
+    private BigDecimal price;
 
     public CartProduct(Product product) {
         this.product = product;
@@ -35,7 +36,7 @@ public class CartProduct implements Serializable {
     }
 
     private void recalculate() {
-        price = product.getPrice() * counter;
+        price = product.getPrice().multiply(new BigDecimal(counter));
     }
 
     public boolean idEquals(Product product) {

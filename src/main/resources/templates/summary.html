@@ -4,51 +4,67 @@
     <meta charset="UTF-8">
     <title>MyShop</title>
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/order.css">
 </head>
 <body>
 <header th:replace="fragments/header :: ShopHeader"></header>
 
 <div class="main-content">
 
-    <table cellspacing="0" style="border: 0px">
-        <tr th:each="cartProduct : ${@cart.cartProducts}">
-            <td>1</td>
-            <td>
-                <img th:src="@{${cartProduct.product.image}}">
-            </td>
-            <td th:text="${cartProduct.product.name}"></td>
-            <td style="display: flex; padding-top: 10px">
-                <p th:text="${cartProduct.counter}"></p>
-            </td>
-            <td th:text="${cartProduct.price}"></td>
+    <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
 
-        </tr>
-    </table>
+        <table>
+            <tr>
+                <th style="width: 50px;"></th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Sum</th>
+                <th style="width: 30px;"></th>
+            </tr>
+            <tr th:each="cartProduct : ${@cart.cartProducts}">
+                <td>
+                    <a th:href="@{'/product/' + ${cartProduct.product.name}}">
+                        <img th:src="${cartProduct.product.image}" alt="img">
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{'/product/' + ${cartProduct.product.name}}" th:text="${cartProduct.product.name}"></a>
+                </td>
+                <td style="display: flex; padding-top: 10px">
+                    <a class="mbtn" th:href="@{'/order/decrease/' + ${cartProduct.product.id}}">-</a>
+                    <p th:text="${cartProduct.counter}"></p>
+                    <a class="mbtn" th:href="@{'/order/increase/' + ${cartProduct.product.id}}">+</a>
+                </td>
+                <td th:text="${cartProduct.price}"></td>
+                <td>
+                    <a class="mbtn" th:href="@{'/order/remove/' + ${cartProduct.product.id}}">X</a>
+                </td>
+            </tr>
+        </table>
 
-    <div class="summary">
-        <p><span>Do zapłaty</span><span th:text="${@cart.sum}"></span>zł</p>
+        <div class="summary">
+            <p><span>Do zapłaty</span><span th:text="${@cart.sum}"></span>zł</p>
+        </div>
     </div>
-
-    <div class="summary">
-
-        <form th:action="@{/order/saveorder}" method="post">
-            <label>Imię</label>
-            <input type="text" name="firstName" required>
-            <label>Nazwisko</label>
-            <input type="text" name="lastName" required>
-            <label>Address</label>
-            <input type="text" name="address" required>
-            <label>kod pocztowy</label>
-            <input type="text" name="postCode" required>
-            <label>Miasto</label>
-            <input type="text" name="city" required>
-            <button type="submit" class="add-btn">Zamów</button>
-        </form>
-
-    </div>
-
-
 </div>
 
+
+<div class="registration-form">
+
+    <form th:action="@{/order/saveorder}" method="post">
+        <label>Imię</label>
+        <input type="text" name="firstName" required>
+        <label>Nazwisko</label>
+        <input type="text" name="lastName" required>
+        <label>Address</label>
+        <input type="text" name="address" required>
+        <label>kod pocztowy</label>
+        <input type="text" name="postCode" required>
+        <label>Miasto</label>
+        <input type="text" name="city" required>
+        <button type="submit" class="add-btn">Zamów</button>
+    </form>
+
+</div>
 </body>
 </html>

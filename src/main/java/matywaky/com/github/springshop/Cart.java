@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ public class Cart implements Serializable {
 
     private List<CartProduct> cartProducts = new ArrayList<>();
     private int counter = 0;
-    private float sum = 0f;
+    private BigDecimal sum = BigDecimal.ZERO;
 
     public void addProduct(Product product) {
         getCartProduct(product).ifPresentOrElse(
@@ -32,9 +33,9 @@ public class Cart implements Serializable {
     public void decreaseProduct(Product product) {
         Optional<CartProduct> optionalCartProduct = getCartProduct(product);
         if (optionalCartProduct.isPresent()) {
-            CartProduct cartItem = optionalCartProduct.get();
-            cartItem.decreaseCounter();
-            if (cartItem.hasZeroItems()) {
+            CartProduct cartProduct = optionalCartProduct.get();
+            cartProduct.decreaseCounter();
+            if (cartProduct.hasZeroItems()) {
                 removeAllProducts(product);
             } else {
                 recalculatePriceAndCounter();
@@ -56,16 +57,16 @@ public class Cart implements Serializable {
     public void clearCart() {
         cartProducts.clear();
         counter = 0;
-        sum = 0f;
+        sum = BigDecimal.ZERO;
     }
 
     private void recalculatePriceAndCounter() {
         int tempCounter = 0;
-        float tempPrice = 0f;
+        BigDecimal tempPrice = BigDecimal.ZERO;
 
         for (CartProduct cp : cartProducts) {
             tempCounter += cp.getCounter();
-            tempPrice += cp.getPrice();
+            tempPrice = tempPrice.add(cp.getPrice());
         }
 
         this.counter = tempCounter;
