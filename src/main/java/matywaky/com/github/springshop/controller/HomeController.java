@@ -1,5 +1,6 @@
 package matywaky.com.github.springshop.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import matywaky.com.github.springshop.ProductOperation;
 import matywaky.com.github.springshop.model.User;
@@ -52,8 +53,10 @@ public class HomeController {
     }
 
     @GetMapping("/add/{productId}")
-    public String addProductToCart(@PathVariable("productId") Long productId, final Model model) {
+    public String addProductToCart(@PathVariable("productId") Long productId,
+                                   final HttpServletRequest request) {
         cartService.productOperation(productId, ProductOperation.INCREASE);
-        return "redirect:/";
+        String referer = request.getHeader("Referer");
+        return "redirect:"+ referer;
     }
 }

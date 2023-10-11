@@ -43,7 +43,7 @@ public class WebSecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request.requestMatchers("/admin")
                         .hasAuthority("ADMIN").requestMatchers("/settings").hasAnyAuthority("ADMIN", "USER")
-                        .requestMatchers("", "/", "/css/**", "/images/**", "/signup", "/sign-in").permitAll()
+                        .requestMatchers("", "/", "/css/**", "/images/**", "/signup", "/sign-in", "/product/**").permitAll()
                         .anyRequest().authenticated())
 
                 .formLogin(form -> form.loginPage("/sign-in").loginProcessingUrl("/sign-in")

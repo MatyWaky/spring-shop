@@ -8,15 +8,21 @@
 <body>
 <header th:replace="~{fragments/header :: ShopHeader}"></header>
 
-<h3 th:text="${product.name}"/>
-<img th:src="${product.image}" th:alt="${product.name} + '-image'">
-<p th:text="${product.description}"></p>
-<span>Price: </span>
-<p th:text="${product.price}"></p>
-<span>Available: </span>
-<p th:text="${product.quantity}"></p>
-<a th:if="${session.status} == logged" th:href="@{'/add/' + ${product.id}}">Add to cart</a>
-<a th:if="${session.status} != logged" th:href="@{/sign-in}">Sign in, to add to cart</a>
+<div class="container">
+  <div class="item-details">
+    <div class="item-image">
+      <img th:src="${product.image}" th:alt="${product.name} + '-image'">
+    </div>
+    <h3 th:text="${product.name}"/>
+    <p th:text="${product.description}"></p>
+    <span>Price: </span>
+    <p th:text="${product.price}"></p>
+    <span>Available: </span>
+    <p th:text="${product.quantity}"></p>
+    <a th:if="${session.status} == logged" th:href="@{'/add/' + ${product.id}}">Add to cart</a>
+    <a th:if="${session.status} != logged" th:href="@{/sign-in}">Sign in, to add to cart</a>
+  </div>
+</div>
 
 <footer th:replace="~{fragments/footer :: ShopFooter}"></footer>
 </body>
