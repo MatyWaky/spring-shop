@@ -17,16 +17,20 @@
         <table>
             <tr>
                 <th style="width: 50px;"></th>
-                <th>Nazwa</th>
-                <th>Ilość</th>
-                <th>Suma</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Sum</th>
                 <th style="width: 30px;"></th>
             </tr>
             <tr th:each="cartProduct : ${@cart.cartProducts}">
                 <td>
-                    <img th:src="${cartProduct.product.image}" alt="img">
+                    <a th:href="@{'/product/' + ${cartProduct.product.name}}">
+                        <img th:src="${cartProduct.product.image}" alt="img">
+                    </a>
                 </td>
-                <td th:text="${cartProduct.product.name}"></td>
+                <td>
+                    <a th:href="@{'/product/' + ${cartProduct.product.name}}" th:text="${cartProduct.product.name}"></a>
+                </td>
                 <td style="display: flex; padding-top: 10px">
                     <a class="mbtn" th:href="@{'/order/decrease/' + ${cartProduct.product.id}}">-</a>
                     <p th:text="${cartProduct.counter}"></p>
@@ -40,9 +44,9 @@
         </table>
 
         <div class="summary">
-            <p><span>Do zapłaty</span><span th:text="${@cart.sum}"></span>zł</p>
+            <p><span>Total to pay:</span><span th:text="${@cart.sum}"></span>PLN</p>
         </div>
-        <a th:href="@{/order/summary}" class="add-btn">Dalej</a>
+        <a th:href="@{/order/summary}" class="add-btn">Next</a>
     </div>
 </div>
 

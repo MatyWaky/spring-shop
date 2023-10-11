@@ -56,7 +56,6 @@ public class HomeController {
     public String addProductToCart(@PathVariable("productId") Long productId,
                                    final HttpServletRequest request) {
         cartService.productOperation(productId, ProductOperation.INCREASE);
-        String referer = request.getHeader("Referer");
-        return "redirect:"+ referer;
+        return "redirect:"+ request.getHeader("Referer");
     }
 }
