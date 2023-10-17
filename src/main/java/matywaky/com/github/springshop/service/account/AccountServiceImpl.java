@@ -7,6 +7,8 @@ import matywaky.com.github.springshop.repository.order.OrderRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,6 +32,7 @@ public class AccountServiceImpl implements AccountService {
         for (Long id : ids) {
             orders.add(orderRepository.findOrderByOrderId(id));
         }
+
         return orders;
     }
 }

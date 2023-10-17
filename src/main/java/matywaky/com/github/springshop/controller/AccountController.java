@@ -85,7 +85,9 @@ public class AccountController {
     @GetMapping("/order-history")
     public String orderHistory(final HttpSession httpSession,
                                final Model model) {
-        model.addAttribute("orders", accountService.findAllOrdersByIds((String) httpSession.getAttribute("user")));
+        model.addAttribute("orders",
+                accountService.findAllOrdersByIds(
+                        (String) httpSession.getAttribute("user")));
         return "order-history";
     }
 }
