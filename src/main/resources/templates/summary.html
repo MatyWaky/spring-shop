@@ -52,17 +52,19 @@
 <div class="registration-form">
 
     <form th:action="@{/order/saveorder}" method="post">
-        <label>Imię</label>
-        <input type="text" name="firstName" required>
-        <label>Nazwisko</label>
-        <input type="text" name="lastName" required>
-        <label>Address</label>
-        <input type="text" name="address" required>
-        <label>kod pocztowy</label>
-        <input type="text" name="postCode" required>
-        <label>Miasto</label>
-        <input type="text" name="city" required>
-        <button type="submit" class="add-btn">Zamów</button>
+        <label for="firstName">Name</label>
+        <input id="firstName" type="text" name="firstName" required>
+        <label for="lastName">Surname</label>
+        <input id="lastName" type="text" name="lastName" required>
+        <label for="phoneNumber">Phone number</label>
+        <input id="phoneNumber" type="text" name="phoneNumber" required>
+        <label for="address">Address</label>
+        <input id="address" type="text" name="address" required>
+        <label for="postCode">Post code</label>
+        <input id="postCode" type="text" name="postCode" required>
+        <label for="city">City</label>
+        <input id="city" type="text" name="city" required>
+        <button type="submit" class="add-btn">Order</button>
     </form>
 
 </div>

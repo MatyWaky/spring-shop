@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create user</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+<header th:replace="~{fragments/header :: ShopHeader}"></header>
+
+<div class="container">
+    <div class="order-history">
+        <div class="order" th:each="order : ${orders}">
+            <h3 th:text="'Order #' + ${order.orderId}"></h3>
+            <p th:text="${order.created}"></p>
+            <!--<p th:text="${order.orderProductsList}">Łączna cena: 79.99 PLN</p>-->
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/footer :: ShopFooter}"></footer>
+</body>
+</html>

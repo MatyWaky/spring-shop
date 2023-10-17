@@ -12,7 +12,9 @@ import lombok.Setter;
 public class OrderDto {
     private String firstName;
     private String lastName;
+    private String phoneNumber;
     private String address;
     private String postCode;
     private String city;
+    private String country;
 }

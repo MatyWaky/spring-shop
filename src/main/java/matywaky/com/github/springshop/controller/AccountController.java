@@ -1,9 +1,12 @@
 package matywaky.com.github.springshop.controller;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import matywaky.com.github.springshop.dto.RoleDto;
 import matywaky.com.github.springshop.dto.UserDetailsDto;
 import matywaky.com.github.springshop.dto.UserDto;
+import matywaky.com.github.springshop.model.order.Order;
+import matywaky.com.github.springshop.service.account.AccountService;
 import matywaky.com.github.springshop.service.role.RoleService;
 import matywaky.com.github.springshop.service.user.UserService;
 import matywaky.com.github.springshop.service.userDetails.UserDetailsService;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class AccountController {
@@ -23,13 +27,16 @@ public class AccountController {
     private final UserDetailsService userDetailsService;
     private final RoleService roleService;
     private final UserService userService;
+    private final AccountService accountService;
 
     public AccountController(UserDetailsService userDetailsService,
                              RoleService roleService,
-                             UserService userService) {
+                             UserService userService,
+                             AccountService accountService) {
         this.userDetailsService = userDetailsService;
         this.roleService = roleService;
         this.userService = userService;
+        this.accountService = accountService;
     }
 
     @GetMapping("/account")
@@ -73,5 +80,19 @@ public class AccountController {
 
         userService.saveUser(userDto);
         return "redirect:/add-user?success";
+    }
+
+    @GetMapping("/order-history")
+    public String orderHistory(final HttpSession httpSession,
+                               final Model model) {
+//        System.out.println("user: " + httpSession.getAttribute("user"));
+        /*
+        * Wyciągnięcie ID Usera
+        * Znalezienie wszystkich OrderId z users_orders
+        * Wyświetlenie ich w html z danymi typu zamównienie #1 z dnia dd.mm.yyy o kwocie XX.XXPLN
+        * Po naciśnięciu na zamównienie przekierowanie do strony ze szczegółami zamównienia
+         */
+        model.addAttribute("orders", accountService.findAllOrders((String) httpSession.getAttribute("user")));
+        return "order-history";
     }
 }

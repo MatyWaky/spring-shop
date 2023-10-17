@@ -5,10 +5,7 @@ import matywaky.com.github.springshop.dto.OrderDto;
 import matywaky.com.github.springshop.service.cart.CartService;
 import matywaky.com.github.springshop.service.order.OrderService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/order")
@@ -34,8 +31,10 @@ public class OrderController {
     }
 
     @PostMapping("/saveorder")
-    public String saveOrder(OrderDto orderDto) {
-        orderService.saveOrder(orderDto);
+    public String saveOrder(@CookieValue(value = "user", defaultValue = "") String email,
+                            OrderDto orderDto) {
+        orderService.orderHistory(orderDto, email);
+        //orderService.saveOrder(orderDto);
         return "redirect:/";
     }
 

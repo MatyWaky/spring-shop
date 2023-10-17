@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import matywaky.com.github.springshop.model.order.Order;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -15,6 +18,7 @@ import java.io.Serializable;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -38,6 +42,9 @@ public class User implements Serializable {
     @OneToOne
     @JoinColumn(name = "user_details_id", referencedColumnName = "id")
     private UserDetails userDetails;
+
+    @ManyToMany(mappedBy = "users", cascade = { CascadeType.ALL })
+    private Set<Order> orders = new HashSet<Order>();
 
     public User(String email, String password, Role role, Status status) {
         this.email = email;
