@@ -85,14 +85,7 @@ public class AccountController {
     @GetMapping("/order-history")
     public String orderHistory(final HttpSession httpSession,
                                final Model model) {
-//        System.out.println("user: " + httpSession.getAttribute("user"));
-        /*
-        * Wyciągnięcie ID Usera
-        * Znalezienie wszystkich OrderId z users_orders
-        * Wyświetlenie ich w html z danymi typu zamównienie #1 z dnia dd.mm.yyy o kwocie XX.XXPLN
-        * Po naciśnięciu na zamównienie przekierowanie do strony ze szczegółami zamównienia
-         */
-        model.addAttribute("orders", accountService.findAllOrders((String) httpSession.getAttribute("user")));
+        model.addAttribute("orders", accountService.findAllOrdersByIds((String) httpSession.getAttribute("user")));
         return "order-history";
     }
 }
