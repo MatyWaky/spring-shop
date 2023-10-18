@@ -47,7 +47,7 @@ public class Order {
                     @JoinColumn(name = "user_id")
             }
     )
-    private Set<User> users = new HashSet<User>();
+    private Set<User> users = new HashSet<>();
 
     public Order(String firstName,
                  String lastName,
