@@ -12,10 +12,7 @@ import matywaky.com.github.springshop.service.user.UserService;
 import matywaky.com.github.springshop.service.userDetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,5 +86,13 @@ public class AccountController {
                 accountService.findAllOrdersByIds(
                         (String) httpSession.getAttribute("user")));
         return "order-history";
+    }
+
+    @GetMapping("/order-history/{orderId}")
+    public String orderHistoryDetails(@PathVariable("orderId") Long orderId,
+                                      final Model model) {
+        model.addAttribute("details",
+                accountService.orderHistoryDetailsByOrderId(orderId));
+        return "order-history-details";
     }
 }

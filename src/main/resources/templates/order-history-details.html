@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create user</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/order.css">
+</head>
+<body>
+<header th:replace="~{fragments/header :: ShopHeader}"></header>
+
+<div class="order-history">
+    <div class="order" >
+        <h3 th:text="'Details about order # ' + ${details.order.orderId}"></h3>
+        <h2>Delivery data:</h2>
+        <p th:text="'Name: ' + ${details.order.firstName}"></p>
+        <p th:text="'Surname: ' + ${details.order.lastName}"></p>
+        <p th:text="'Address: ' + ${details.order.address}"></p>
+
+        <h2>Products:</h2>
+            <table>
+                <tr>
+                    <th style="width: 50px;"></th>
+                    <th>Product</th>
+                    <th>Amount</th>
+                    <th>Per item [PLN]</th>
+                    <th>Sum [PLN]</th>
+                </tr>
+                <tr th:each="product : ${details.productAndAmount}">
+                    <td>
+                        <img th:src="${product.key.image}" alt="img">
+                    </td>
+                    <td>
+                        <p th:text="${product.key.name}"></p>
+                    </td>
+                    <td style="display: flex; padding-top: 10px">
+                        <p th:text="${product.value}"></p>
+                    </td>
+                    <td><p th:text="${product.key.price}"></p></td>
+                    <td><p th:text="${product.key.price * product.value}"></p></td>
+                </tr>
+            </table>
+
+        <h2 th:text="'Total to pay: ' + ${details.order.totalToPay}"></h2>
+    </div>
+</div>
+
+
+
+<footer th:replace="~{fragments/footer :: ShopFooter}"></footer>
+</body>
+</html>

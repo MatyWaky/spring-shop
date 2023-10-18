@@ -11,7 +11,7 @@
 <div class="container">
     <div class="order-history">
         <div class="order" th:each="order : ${orders}">
-            <h3 th:text="'Order #' + ${order.orderId}"></h3>
+            <a th:href="@{'/order-history/' + ${order.orderId}}" th:text="'Order #' + ${order.orderId}"></a>
             <p th:text="${order.created}"></p>
             <p th:text="${order.totalToPay} + 'PLN'"></p>
         </div>
