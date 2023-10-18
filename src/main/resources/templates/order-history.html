@@ -13,7 +13,7 @@
         <div class="order" th:each="order : ${orders}">
             <h3 th:text="'Order #' + ${order.orderId}"></h3>
             <p th:text="${order.created}"></p>
-            <!--<p th:text="${order.orderProductsList}">Łączna cena: 79.99 PLN</p>-->
+            <p th:text="${order.totalToPay} + 'PLN'"></p>
         </div>
     </div>
 </div>

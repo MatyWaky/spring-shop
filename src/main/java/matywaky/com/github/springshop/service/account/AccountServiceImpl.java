@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -25,14 +24,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Set<Order> findAllOrdersByIds(String email) {
+    public List<Order> findAllOrdersByIds(String email) {
         User user = userRepository.findByEmail(email);
         Set<Long> ids = orderRepository.findAllOrdersByUserID(user.getId());
-        Set<Order> orders = new HashSet<>();
+        List<Order> orders = new ArrayList<>();
         for (Long id : ids) {
             orders.add(orderRepository.findOrderByOrderId(id));
         }
 
+        Collections.sort(orders);
         return orders;
     }
 }

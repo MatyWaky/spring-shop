@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import matywaky.com.github.springshop.model.User;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "orders")
-public class Order {
+public class Order implements Comparable<Order>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +49,7 @@ public class Order {
             }
     )
     private Set<User> users = new HashSet<>();
+    private BigDecimal totalToPay;
 
     public Order(String firstName,
                  String lastName,
@@ -85,5 +87,10 @@ public class Order {
         this.country = country;
         this.created = created;
         this.users = users;
+    }
+
+    @Override
+    public int compareTo(Order o) {
+        return (int) (this.orderId - o.getOrderId());
     }
 }

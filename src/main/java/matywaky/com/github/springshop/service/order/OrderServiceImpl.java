@@ -11,6 +11,7 @@ import matywaky.com.github.springshop.repository.order.OrderProductRepository;
 import matywaky.com.github.springshop.repository.order.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -67,6 +68,7 @@ public class OrderServiceImpl implements OrderService {
         order.getUsers().add(user);
         orderRepository.save(order);
         orderProductRepository.saveAll(mapToOrderProductList(cart, order));
+        order.setTotalToPay(orderRepository.totalToPayInOrder(order.getOrderId()));
         cart.clearCart();
     }
 }
