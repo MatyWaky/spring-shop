@@ -9,7 +9,10 @@ import matywaky.com.github.springshop.model.order.OrderProduct;
 import matywaky.com.github.springshop.repository.UserRepository;
 import matywaky.com.github.springshop.repository.order.OrderProductRepository;
 import matywaky.com.github.springshop.repository.order.OrderRepository;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -35,14 +38,6 @@ public class OrderServiceImpl implements OrderService {
         this.userRepository = userRepository;
     }
 
-    @Override
-    public void saveOrder(OrderDto orderDto) {
-        Order order = orderMapper(orderDto);
-        orderRepository.save(order);
-        orderProductRepository.saveAll(mapToOrderProductList(cart, order));
-        cart.clearCart();
-    }
-
     private Order orderMapper(OrderDto orderDto) {
         return new Order(orderDto.getFirstName(),
                 orderDto.getLastName(),
@@ -62,7 +57,17 @@ public class OrderServiceImpl implements OrderService {
         return orderItems;
     }
 
-    public void orderHistory(OrderDto orderDto, String email) {
+    @Override
+    public String saveOrder(OrderDto orderDto, String email) {
+        orderDto = readDataFromMap(orderDto);
+        String error = "Cannot find place by post code!";
+        if (orderDto == null)
+            return error;
+
+        error = checkUserData(orderDto);
+        if (error != null)
+            return error;
+
         Order order = orderMapper(orderDto);
         User user = userRepository.findByEmail(email);
         order.getUsers().add(user);
@@ -70,5 +75,58 @@ public class OrderServiceImpl implements OrderService {
         orderProductRepository.saveAll(mapToOrderProductList(cart, order));
         order.setTotalToPay(orderRepository.totalToPayInOrder(order.getOrderId()));
         cart.clearCart();
+
+
+        return null;
+    }
+
+    private OrderDto readDataFromMap(OrderDto orderDto) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        ResponseEntity<String> topic_body = restTemplate.exchange(
+                "https://nominatim.openstreetmap.org/?addressdetails=1&q="+orderDto.getPostCode()+"&format=json&limit=1",
+                HttpMethod.GET, null, String.class );
+
+        String topicBody = topic_body.getBody();
+        if (topicBody == null)
+            return null;
+
+        topicBody = topicBody.replace("\"address\":{", "");
+        topicBody = topicBody.replace("[","");
+        topicBody = topicBody.replace("]","");
+        topicBody = topicBody.replace("}}","");
+        topicBody = topicBody.replace("{","");
+
+        String[] list = topicBody.split(",\"");
+        boolean shouldCheck = true;
+        for (int i = 0; i < list.length; i++) {
+            list[i] = list[i].replace("\"", "");
+
+            String[] tempList = list[i].split(":");
+            if ((tempList[0].equals("city") || tempList[0].equals("town") || tempList[0].equals("municipality"))
+                    && shouldCheck) {
+                orderDto.setCity(tempList[1]);
+                shouldCheck = false;
+            }
+            if (tempList[0].equals("country"))
+                orderDto.setCountry(tempList[1]);
+        }
+
+        return orderDto;
+    }
+
+    private String checkUserData(OrderDto orderDto) {
+        if (orderDto.getFirstName().isEmpty() ||
+        orderDto.getLastName().isEmpty() ||
+        orderDto.getCountry().isEmpty() ||
+        orderDto.getCity().isEmpty() ||
+        orderDto.getAddress().isEmpty() ||
+        orderDto.getPhoneNumber().isEmpty() ||
+        orderDto.getPostCode().isEmpty()) {
+            return "Some fields are empty!";
+        }
+
+
+        return null;
     }
 }

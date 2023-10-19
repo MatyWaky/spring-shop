@@ -11,11 +11,14 @@
 
 <div class="order-history">
     <div class="order" >
-        <h3 th:text="'Details about order # ' + ${details.order.orderId}"></h3>
+        <h3 th:text="'Details about order #' + ${details.order.orderId}"></h3>
         <h2>Delivery data:</h2>
         <p th:text="'Name: ' + ${details.order.firstName}"></p>
         <p th:text="'Surname: ' + ${details.order.lastName}"></p>
         <p th:text="'Address: ' + ${details.order.address}"></p>
+        <p th:text="'Post code: ' + ${details.order.postCode}"></p>
+        <p th:text="'City: ' + ${details.order.city}"></p>
+        <p th:text="'Country: ' + ${details.order.country}"></p>
 
         <h2>Products:</h2>
             <table>

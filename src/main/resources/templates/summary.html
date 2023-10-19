@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>MyShop</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link rel="stylesheet" type="text/css" href="/css/order.css">
 </head>
 <body>
@@ -43,17 +43,16 @@
         </table>
 
         <div class="summary">
-            <p><span>Do zapłaty</span><span th:text="${@cart.sum}"></span>zł</p>
+            <p><span>To pay:</span><span th:text="${@cart.sum}"></span>PLN</p>
         </div>
     </div>
 </div>
 
 
 <div class="registration-form">
-
     <form th:action="@{/order/saveorder}" method="post">
         <label for="firstName">Name</label>
-        <input id="firstName" type="text" name="firstName" required>
+        <input id="firstName" type="text" name="firstName" >
         <label for="lastName">Surname</label>
         <input id="lastName" type="text" name="lastName" required>
         <label for="phoneNumber">Phone number</label>
@@ -62,11 +61,12 @@
         <input id="address" type="text" name="address" required>
         <label for="postCode">Post code</label>
         <input id="postCode" type="text" name="postCode" required>
-        <label for="city">City</label>
-        <input id="city" type="text" name="city" required>
+        <!--<label for="city">City</label>
+        <input id="city" type="text" name="city" required>-->
+        <span th:if="${error}"  th:text="${error}" style="color: red"></span>
         <button type="submit" class="add-btn">Order</button>
     </form>
-
 </div>
+
 </body>
 </html>
