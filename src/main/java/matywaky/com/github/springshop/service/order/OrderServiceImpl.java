@@ -14,9 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,10 +57,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String saveOrder(OrderDto orderDto, String email) {
-        orderDto = readDataFromMap(orderDto);
-        String error = "Cannot find place by post code!";
-        if (orderDto == null)
-            return error;
+        String error;
+        if (orderDto.getCity() == null || orderDto.getCountry() == null) {
+            orderDto = readDataFromMap(orderDto);
+            error = "Cannot find place by post code! Please fill all fields";
+            if (orderDto == null)
+                return error;
+        }
 
         error = checkUserData(orderDto);
         if (error != null)
@@ -88,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
                 HttpMethod.GET, null, String.class );
 
         String topicBody = topic_body.getBody();
-        if (topicBody == null)
+        if (topicBody == null || topic_body.getBody().isEmpty())
             return null;
 
         topicBody = topicBody.replace("\"address\":{", "");
@@ -96,6 +97,9 @@ public class OrderServiceImpl implements OrderService {
         topicBody = topicBody.replace("]","");
         topicBody = topicBody.replace("}}","");
         topicBody = topicBody.replace("{","");
+
+        if (topicBody.isEmpty())
+            return null;
 
         String[] list = topicBody.split(",\"");
         boolean shouldCheck = true;

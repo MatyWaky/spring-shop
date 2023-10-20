@@ -19,7 +19,6 @@
                 <th>Product</th>
                 <th>Quantity</th>
                 <th>Sum</th>
-                <th style="width: 30px;"></th>
             </tr>
             <tr th:each="cartProduct : ${@cart.cartProducts}">
                 <td>
@@ -31,14 +30,9 @@
                     <a th:href="@{'/product/' + ${cartProduct.product.name}}" th:text="${cartProduct.product.name}"></a>
                 </td>
                 <td style="display: flex; padding-top: 10px">
-                    <a class="mbtn" th:href="@{'/order/decrease/' + ${cartProduct.product.id}}">-</a>
                     <p th:text="${cartProduct.counter}"></p>
-                    <a class="mbtn" th:href="@{'/order/increase/' + ${cartProduct.product.id}}">+</a>
                 </td>
                 <td th:text="${cartProduct.price}"></td>
-                <td>
-                    <a class="mbtn" th:href="@{'/order/remove/' + ${cartProduct.product.id}}">X</a>
-                </td>
             </tr>
         </table>
 
@@ -49,6 +43,7 @@
 </div>
 
 
+<h3>Delivery data:</h3>
 <div class="registration-form">
     <form th:action="@{/order/saveorder}" method="post">
         <label for="firstName">Name</label>
@@ -61,10 +56,12 @@
         <input id="address" type="text" name="address" required>
         <label for="postCode">Post code</label>
         <input id="postCode" type="text" name="postCode" required>
-        <!--<label for="city">City</label>
-        <input id="city" type="text" name="city" required>-->
+        <label th:if="${error}" for="city">City</label>
+        <input th:if="${error}" id="city" type="text" name="city" required>
+        <label th:if="${error}" for="country">Country</label>
+        <input th:if="${error}" id="country" type="text" name="country" required>
         <span th:if="${error}"  th:text="${error}" style="color: red"></span>
-        <button type="submit" class="add-btn">Order</button>
+        <button type="submit" class="add-btn">To payment</button>
     </form>
 </div>
 
