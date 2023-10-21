@@ -49,6 +49,8 @@
 
 <form action='/order/charge' method='POST' id='checkout-form'>
     <input type='hidden' th:value="${@cart.sum}" name='amount' />
+    <input type="hidden" th:value="${orderId}" th:attr="name='orderId'"/>
+
     <label>Price:<span th:text="${@cart.sum}"></span></label>
     <script src="https://js.stripe.com/v3/"></script>
     <script
@@ -60,7 +62,7 @@
           data-description=${orderId}'
             data-name='Spring-shop'
             data-image
-                    ='https://www.baeldung.com/wp-content/themes/baeldung/favicon/android-chrome-192x192.png'
+                    ='https://uxwing.com/wp-content/themes/uxwing/download/e-commerce-currency-shopping/shopping-icon.png'
             data-locale='auto'
             data-zip-code='false'>
     </script>

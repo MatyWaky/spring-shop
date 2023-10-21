@@ -30,29 +30,6 @@ public class OrderController {
         return "cartView";
     }
 
-    @GetMapping("/summary")
-    public String showSummary(OrderDto orderDto,
-                              Long id,
-                              final Model model) {
-        model.addAttribute("orderDto", orderDto);
-        model.addAttribute("orderId", id);
-        model.addAttribute("publicKey", publicKey);
-        return "summary";
-    }
-
-    /*@PostMapping("/saveorder")
-    public String saveOrder(@CookieValue(value = "user", defaultValue = "") String email,
-                            OrderDto orderDto,
-                            final Model model) {
-        String error = orderService.saveOrder(orderDto, email);
-        if (error != null) {
-            model.addAttribute("error", error);
-            return "summary";
-        }
-
-        return "redirect:/";
-    }*/
-
     @GetMapping("/orderdetails")
     public String orderDetails() {
         return "order-details";
@@ -70,9 +47,6 @@ public class OrderController {
         }
 
         Long id = orderService.saveOrder(orderDto, email);
-        /*redirectAttributes.addFlashAttribute("orderDto", orderDto);
-        redirectAttributes.addFlashAttribute("orderId", id);*/
-
         model.addAttribute("orderDto", orderDto);
         model.addAttribute("orderId", id);
         model.addAttribute("publicKey", publicKey);

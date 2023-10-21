@@ -3,9 +3,11 @@ package matywaky.com.github.springshop.service.order;
 import matywaky.com.github.springshop.Cart;
 import matywaky.com.github.springshop.CartProduct;
 import matywaky.com.github.springshop.dto.OrderDto;
+import matywaky.com.github.springshop.model.Product;
 import matywaky.com.github.springshop.model.User;
 import matywaky.com.github.springshop.model.order.Order;
 import matywaky.com.github.springshop.model.order.OrderProduct;
+import matywaky.com.github.springshop.repository.ProductRepository;
 import matywaky.com.github.springshop.repository.UserRepository;
 import matywaky.com.github.springshop.repository.order.OrderProductRepository;
 import matywaky.com.github.springshop.repository.order.OrderRepository;
@@ -17,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -25,15 +28,18 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderProductRepository orderProductRepository;
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
 
     public OrderServiceImpl(Cart cart,
                             OrderRepository orderRepository,
                             OrderProductRepository orderProductRepository,
-                            UserRepository userRepository) {
+                            UserRepository userRepository,
+                            ProductRepository productRepository) {
         this.cart = cart;
         this.orderRepository = orderRepository;
         this.orderProductRepository = orderProductRepository;
         this.userRepository = userRepository;
+        this.productRepository = productRepository;
     }
 
     private Order orderMapper(OrderDto orderDto) {
@@ -63,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
         orderProductRepository.saveAll(mapToOrderProductList(cart, order));
         order.setTotalToPay(orderRepository.totalToPayInOrder(order.getOrderId()));
-        //cart.clearCart();
+        reduceQuantityOfProductsInDb(cart);
 
         return order.getOrderId();
     }
@@ -80,6 +86,14 @@ public class OrderServiceImpl implements OrderService {
 
         error = checkUserData(orderDto);
         return error;
+    }
+
+    private void reduceQuantityOfProductsInDb(Cart cart) {
+        for (CartProduct cartProduct : cart.getCartProducts()) {
+            productRepository.reduceQuantity(
+                    cartProduct.getProduct().getId(),
+                    cartProduct.getCounter());
+        }
     }
 
     private OrderDto readDataFromMap(OrderDto orderDto) {
@@ -131,7 +145,10 @@ public class OrderServiceImpl implements OrderService {
             return "Some fields are empty!";
         }
 
-
         return null;
+    }
+
+    private void reduceQuantityOfItemsInDB() {
+
     }
 }

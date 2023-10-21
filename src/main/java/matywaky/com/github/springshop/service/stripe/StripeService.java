@@ -4,6 +4,7 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import jakarta.annotation.PostConstruct;
+import matywaky.com.github.springshop.Cart;
 import matywaky.com.github.springshop.dto.stripe.ChargeRequest;
 import matywaky.com.github.springshop.dto.stripe.ChargeRequestDto;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,11 @@ import java.util.Map;
 public class StripeService {
     @Value("${STRIPE_SECRET_KEY}")
     private String secretKey;
+    private final Cart cart;
+
+    public StripeService(Cart cart) {
+        this.cart = cart;
+    }
 
     @PostConstruct
     public void init() {
@@ -41,5 +47,9 @@ public class StripeService {
         chargeRequest.setStripeEmail(chargeRequestDto.getStripeEmail());
         chargeRequest.setStripeToken(chargeRequestDto.getStripeToken());
         return chargeRequest;
+    }
+
+    public void clearCart() {
+        cart.clearCart();
     }
 }

@@ -8,9 +8,9 @@ import matywaky.com.github.springshop.dto.stripe.ChargeRequestDto;
 import matywaky.com.github.springshop.service.stripe.StripeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class StripeController {
@@ -23,18 +23,18 @@ public class StripeController {
 
     @PostMapping("/order/charge")
     public String charge(@Valid @ModelAttribute("ChargeRequestDto") ChargeRequestDto chargeRequestDto,
+                         @RequestParam(value = "orderId") Long id,
                          final Model model)
             throws StripeException {
-        /*chargeRequest.setDescription("Payment for order #order id here");*/
+        chargeRequestDto.setDescription("Payment for order #" + id);
         chargeRequestDto.setCurrency("pln");
+
         ChargeRequest chargeRequest = stripeService.chargeRequestMapper(chargeRequestDto);
         Charge charge = stripeService.charge(chargeRequest);
-        model.addAttribute("charge", charge);
-        return "payment-data";
+
+        stripeService.clearCart();
+        //model.addAttribute("charge", charge);
+        return "redirect:/order-history/"+id;
     }
 
-/*    @GetMapping("/charge")
-    public String chargeForm() {
-        return "charge";
-    }*/
 }
