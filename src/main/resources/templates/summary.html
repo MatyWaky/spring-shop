@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MyShop</title>
+    <title>Summary</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <link rel="stylesheet" type="text/css" href="/css/order.css">
 </head>
@@ -10,9 +10,7 @@
 <header th:replace="fragments/header :: ShopHeader"></header>
 
 <div class="main-content">
-
     <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-
         <table>
             <tr>
                 <th style="width: 50px;"></th>
@@ -22,12 +20,10 @@
             </tr>
             <tr th:each="cartProduct : ${@cart.cartProducts}">
                 <td>
-                    <a th:href="@{'/product/' + ${cartProduct.product.name}}">
-                        <img th:src="${cartProduct.product.image}" alt="img">
-                    </a>
+                    <img th:src="${cartProduct.product.image}" alt="img">
                 </td>
                 <td>
-                    <a th:href="@{'/product/' + ${cartProduct.product.name}}" th:text="${cartProduct.product.name}"></a>
+                    <a th:text="${cartProduct.product.name}"></a>
                 </td>
                 <td style="display: flex; padding-top: 10px">
                     <p th:text="${cartProduct.counter}"></p>
@@ -43,27 +39,31 @@
 </div>
 
 
-<h3>Delivery data:</h3>
-<div class="registration-form">
-    <form th:action="@{/order/saveorder}" method="post">
-        <label for="firstName">Name</label>
-        <input id="firstName" type="text" name="firstName" >
-        <label for="lastName">Surname</label>
-        <input id="lastName" type="text" name="lastName" required>
-        <label for="phoneNumber">Phone number</label>
-        <input id="phoneNumber" type="text" name="phoneNumber" required>
-        <label for="address">Address</label>
-        <input id="address" type="text" name="address" required>
-        <label for="postCode">Post code</label>
-        <input id="postCode" type="text" name="postCode" required>
-        <label th:if="${error}" for="city">City</label>
-        <input th:if="${error}" id="city" type="text" name="city" required>
-        <label th:if="${error}" for="country">Country</label>
-        <input th:if="${error}" id="country" type="text" name="country" required>
-        <span th:if="${error}"  th:text="${error}" style="color: red"></span>
-        <button type="submit" class="add-btn">To payment</button>
-    </form>
-</div>
+<h2>Delivery data:</h2>
+<p th:text="'Name: ' + ${orderDto.firstName}"></p>
+<p th:text="'Surname: ' + ${orderDto.lastName}"></p>
+<p th:text="'Address: ' + ${orderDto.address}"></p>
+<p th:text="'Post code: ' + ${orderDto.postCode}"></p>
+<p th:text="'City: ' + ${orderDto.city}"></p>
+<p th:text="'Country: ' + ${orderDto.country}"></p>
 
+<form action='/order/charge' method='POST' id='checkout-form'>
+    <input type='hidden' th:value="${@cart.sum}" name='amount' />
+    <label>Price:<span th:text="${@cart.sum}"></span></label>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script
+            src='https://checkout.stripe.com/checkout.js'
+            class='stripe-button'
+            data-currency="pln"
+            th:attr='data-key=${publicKey},
+          data-amount=${@cart.sum}*100,
+          data-description=${orderId}'
+            data-name='Spring-shop'
+            data-image
+                    ='https://www.baeldung.com/wp-content/themes/baeldung/favicon/android-chrome-192x192.png'
+            data-locale='auto'
+            data-zip-code='false'>
+    </script>
+</form>
 </body>
 </html>

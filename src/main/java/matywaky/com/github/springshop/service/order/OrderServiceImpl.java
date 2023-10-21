@@ -56,7 +56,20 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String saveOrder(OrderDto orderDto, String email) {
+    public Long saveOrder(OrderDto orderDto, String email) {
+        Order order = orderMapper(orderDto);
+        User user = userRepository.findByEmail(email);
+        order.getUsers().add(user);
+        orderRepository.save(order);
+        orderProductRepository.saveAll(mapToOrderProductList(cart, order));
+        order.setTotalToPay(orderRepository.totalToPayInOrder(order.getOrderId()));
+        //cart.clearCart();
+
+        return order.getOrderId();
+    }
+
+    @Override
+    public String checkData(OrderDto orderDto) {
         String error;
         if (orderDto.getCity() == null || orderDto.getCountry() == null) {
             orderDto = readDataFromMap(orderDto);
@@ -66,19 +79,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         error = checkUserData(orderDto);
-        if (error != null)
-            return error;
-
-        Order order = orderMapper(orderDto);
-        User user = userRepository.findByEmail(email);
-        order.getUsers().add(user);
-        orderRepository.save(order);
-        orderProductRepository.saveAll(mapToOrderProductList(cart, order));
-        order.setTotalToPay(orderRepository.totalToPayInOrder(order.getOrderId()));
-        cart.clearCart();
-
-
-        return null;
+        return error;
     }
 
     private OrderDto readDataFromMap(OrderDto orderDto) {

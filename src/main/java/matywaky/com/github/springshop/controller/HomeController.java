@@ -7,6 +7,7 @@ import matywaky.com.github.springshop.model.User;
 import matywaky.com.github.springshop.service.cart.CartService;
 import matywaky.com.github.springshop.service.product.ProductService;
 import matywaky.com.github.springshop.service.user.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class HomeController {
-
     private final ProductService productService;
     private final UserService userService;
     private final CartService cartService;

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Accept a payment</title>
+</head>
+<body>
+<form action='/charge' method='POST' id='checkout-form'>
+  <input type='hidden' value="1000" name='amount' />
+  <label>Price:<span>10</span></label>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script
+          src='https://checkout.stripe.com/checkout.js'
+          class='stripe-button'
+          th:attr='data-key=${"pk_test_51O3F0CBELtUupATcVjwUueBvEaohYsgNpYKt63SOtw9aGWXtdbMXtgzqOObYaDqWrXhpYFOLMBiQxinsQWKjx08z007B4bWQqn"},
+          data-amount=${1000},
+          data-currency=${"pln"}'
+          data-name='Baeldung'
+          data-description='Spring course checkout'
+          data-image
+                  ='https://www.baeldung.com/wp-content/themes/baeldung/favicon/android-chrome-192x192.png'
+          data-locale='auto'
+          data-zip-code='false'>
+  </script>
+</form>
+</body>
+</html>
