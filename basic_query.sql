@@ -19,6 +19,9 @@ INSERT INTO
 user_details(id) 
 VALUES (1), (2), (3);
 
+INSERT INTO statuses(name, description) 
+VALUES ('uknown', 'unknown');
+
 INSERT INTO
 	users(email, password, role_id, status_id, user_details_id)
 VALUES
